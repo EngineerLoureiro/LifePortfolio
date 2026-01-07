@@ -1,9 +1,36 @@
 name: Task Planner
-description: Plan a work item
+description: A focused piece of work
+title: "[Task] "
+labels: ["task"]
+
 body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: Type of Task
+      options:
+        - Learning
+        - New Feature
+        - Refactor
+    validations:
+      required: true
+
   - type: textarea
     id: goals
     attributes:
       label: Goals
+      description: What are the goals for this task?
+      placeholder: |
+        - Clear outcome 1
+        - Clear outcome 2
     validations:
       required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / Blockers
+      description: Progress notes, decisions, or anything that blocked me
+      placeholder: Notes, partial progress, blockers, follow-ups
+    validations:
+      required: false
