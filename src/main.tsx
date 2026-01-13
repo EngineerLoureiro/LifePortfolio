@@ -2,9 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { openDatabase } from "./database/initializeDatabase.ts";
+import { initializeDatabase } from "./database/initializeDatabase.ts";
 
-openDatabase();
+await initializeDatabase();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />

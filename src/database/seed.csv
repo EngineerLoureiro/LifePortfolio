@@ -1,0 +1,83 @@
+id,date,category,subCategory,amount
+e1,2025-01-05,House,Gas & Electricity,90
+e2,2025-01-06,House,Communication,45
+e3,2025-01-08,Groceries,Supermarket,120
+e4,2025-01-12,Subscriptions,ChatGPT,25
+e5,2025-01-15,Transportation,Fuel,80
+e6,2025-02-05,House,Gas & Electricity,95
+e7,2025-02-08,Groceries,Supermarket,140
+e8,2025-02-12,Subscriptions,Spotify,15
+e9,2025-02-18,Transportation,Fuel,75
+e10,2025-03-05,House,Gas & Electricity,88
+e11,2025-03-08,Groceries,Supermarket,130
+e12,2025-03-10,Shopping,Clothes,120
+e13,2025-03-12,Subscriptions,ChatGPT,25
+e14,2025-04-05,House,Gas & Electricity,92
+e15,2025-04-07,Taxes,IRS,600
+e16,2025-04-08,Groceries,Supermarket,135
+e17,2025-04-12,Subscriptions,Spotify,15
+e18,2025-05-05,House,Gas & Electricity,90
+e19,2025-05-08,Groceries,Supermarket,150
+e20,2025-05-15,Shopping,Electronics,450
+e21,2025-05-20,Transportation,Maintenance,300
+e22,2025-06-05,House,Gas & Electricity,110
+e23,2025-06-07,Taxes,Property,120
+e24,2025-06-10,Travel,Flights,800
+e25,2025-06-11,Travel,Lodging,950
+e26,2025-06-12,Groceries,Supermarket,160
+e27,2025-07-05,House,Gas & Electricity,115
+e28,2025-07-10,Travel,Flights,1200
+e29,2025-07-11,Travel,Lodging,1400
+e30,2025-07-15,Groceries,Supermarket,170
+e31,2025-08-05,House,Gas & Electricity,112
+e32,2025-08-10,Travel,Activities,600
+e33,2025-08-12,Groceries,Supermarket,165
+e34,2025-09-05,House,Gas & Electricity,95
+e35,2025-09-08,Groceries,Supermarket,145
+e36,2025-09-12,Subscriptions,ChatGPT,25
+e37,2025-10-05,House,Gas & Electricity,90
+e38,2025-10-07,Taxes,IUC,120
+e39,2025-10-10,Groceries,Supermarket,150
+e40,2025-11-05,House,Gas & Electricity,98
+e41,2025-11-08,Groceries,Supermarket,155
+e42,2025-11-15,Shopping,Furniture,900
+e43,2025-12-05,House,Gas & Electricity,105
+e44,2025-12-07,Taxes,Property,180
+e45,2025-12-10,Travel,Flights,700
+e46,2025-12-11,Travel,Lodging,850
+e47,2025-12-15,Groceries,Supermarket,190
+e48,2026-01-05,House,Gas & Electricity,92
+e49,2026-01-08,Groceries,Supermarket,140
+e50,2026-01-12,Subscriptions,ChatGPT,25
+e51,2026-01-15,Transportation,Fuel,85
+e52,2026-02-05,House,Gas & Electricity,96
+e53,2026-02-08,Groceries,Supermarket,150
+e54,2026-02-12,Subscriptions,Spotify,15
+e55,2026-03-05,House,Gas & Electricity,90
+e56,2026-03-08,Groceries,Supermarket,145
+e57,2026-03-10,Shopping,Clothes,110
+e58,2026-04-05,House,Gas & Electricity,94
+e59,2026-04-07,Taxes,IRS,650
+e60,2026-04-10,Groceries,Supermarket,155
+e61,2026-05-05,House,Gas & Electricity,98
+e62,2026-05-08,Groceries,Supermarket,160
+e63,2026-05-20,Transportation,Maintenance,350
+e64,2026-06-05,House,Gas & Electricity,115
+e65,2026-06-07,Taxes,Property,140
+e66,2026-06-10,Travel,Flights,900
+e67,2026-06-11,Travel,Lodging,1100
+e68,2026-07-05,House,Gas & Electricity,118
+e69,2026-07-10,Travel,Flights,1300
+e70,2026-07-11,Travel,Lodging,1500
+e71,2026-08-05,House,Gas & Electricity,114
+e72,2026-08-10,Travel,Activities,650
+e73,2026-09-05,House,Gas & Electricity,97
+e74,2026-09-08,Groceries,Supermarket,150
+e75,2026-10-05,House,Gas & Electricity,92
+e76,2026-10-07,Taxes,IUC,130
+e77,2026-11-05,House,Gas & Electricity,100
+e78,2026-11-15,Shopping,Electronics,500
+e79,2026-12-05,House,Gas & Electricity,108
+e80,2026-12-07,Taxes,Property,190
+e81,2026-12-10,Travel,Flights,750
+e82,2026-12-11,Travel,Lodging,900

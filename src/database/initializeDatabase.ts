@@ -1,36 +1,48 @@
-import { categoriesSeed } from "../data";
+import { Dexie, Entity, type EntityTable } from "dexie";
+import type { ExpenseEvent } from "./schema";
+import Papa from "papaparse";
+import seedCsv from "./seed.csv?raw";
 
-export async function openDatabase(): Promise<IDBDatabase> {
-  return new Promise<IDBDatabase>((resolve, reject) => {
-    const request = indexedDB.open("testDatabase", 1);
-    let db: IDBDatabase;
+export default class LifePortfolioDB extends Dexie {
+  expenses!: EntityTable<ExpenseEvent, "id">;
 
-    request.onupgradeneeded = () => {
-      db = request.result;
-      console.log("ONUPGRADENEEDED");
+  constructor() {
+    super("ExpensesDB");
+    this.version(1).stores({
+      expenses: "++id,date,category",
+    });
+    this.expenses.mapToClass(Expense);
+  }
+}
 
-      const objStore = db.createObjectStore("categories", { keyPath: "title" });
+export class Expense extends Entity<LifePortfolioDB> {
+  id!: number;
+  date!: string;
+  category!: string;
+  subCategory!: string;
+  amount!: number;
+}
 
-      objStore.transaction.oncomplete = () => {
-        const categoriesObjectStore = db
-          .transaction("categories", "readwrite")
-          .objectStore("categories");
+export const expensesDB = new LifePortfolioDB();
 
-        categoriesSeed.forEach((category) => {
-          console.log(category);
-          categoriesObjectStore.add(category);
-        });
-      };
-    };
+async function seedIfEmpty(db: LifePortfolioDB) {
+  const count = await db.expenses.count();
 
-    request.onsuccess = () => {
-      console.log("Database sucessfully open");
-      resolve(request.result);
-    };
+  if (count > 0) return;
 
-    request.onerror = () => {
-      console.log(`Database error: ${request.error}`);
-      reject(request.error);
-    };
-  });
+  const csv = Papa.parse(seedCsv, { header: true });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const rows = csv.data.map((value: any) => ({
+    date: String(value.date),
+    category: String(value.category),
+    subCategory: String(value.subCategory),
+    amount: Number(value.amount),
+  }));
+
+  await db.expenses.bulkAdd(rows);
+}
+export async function initializeDatabase() {
+  await expensesDB.open();
+  await seedIfEmpty(expensesDB);
 }
