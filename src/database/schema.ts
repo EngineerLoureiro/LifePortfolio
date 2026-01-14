@@ -1,5 +1,5 @@
 export type ExpenseEvent = {
-  id: string;
+  id?: string;
   date: string;
   category: string;
   subCategory: string;

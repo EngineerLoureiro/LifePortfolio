@@ -10,11 +10,11 @@ export async function createExpense(
   db: LifePortfolioDB,
   expense: ExpenseEvent
 ) {
-  await db.expenses.add(expense);
+  return await db.expenses.add(expense);
 }
 
-export async function readExpenseByID(db: LifePortfolioDB, id: number) {
-  return await db.expenses.get(String(id));
+export async function readExpenseByID(db: LifePortfolioDB, id: string) {
+  return await db.expenses.get(id);
 }
 
 export async function listExpensesByDateRange(

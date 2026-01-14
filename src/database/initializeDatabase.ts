@@ -6,8 +6,8 @@ import seedCsv from "./seed.csv?raw";
 export default class LifePortfolioDB extends Dexie {
   expenses!: EntityTable<ExpenseEvent, "id">;
 
-  constructor() {
-    super("ExpensesDB");
+  constructor(name = "ExpensesDB") {
+    super(name);
     this.version(1).stores({
       expenses: "++id,date,category",
     });
