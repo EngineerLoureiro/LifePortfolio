@@ -1,10 +1,10 @@
 import { Dexie, Entity, type EntityTable } from "dexie";
-import type { ExpenseEvent } from "./schema";
+
 import Papa from "papaparse";
 import seedCsv from "./seed.csv?raw";
 
 export default class LifePortfolioDB extends Dexie {
-  expenses!: EntityTable<ExpenseEvent, "id">;
+  expenses!: EntityTable<Expense, "id">;
 
   constructor(name = "ExpensesDB") {
     super(name);
@@ -16,7 +16,7 @@ export default class LifePortfolioDB extends Dexie {
 }
 
 export class Expense extends Entity<LifePortfolioDB> {
-  id!: number;
+  id?: number;
   date!: string;
   category!: string;
   subCategory!: string;

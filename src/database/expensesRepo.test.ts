@@ -1,5 +1,5 @@
 import { describe, beforeEach, it, expect } from "vitest";
-import LifePortfolioDB from "./initializeDatabase";
+import LifePortfolioDB, { Expense } from "./initializeDatabase";
 import { afterEach } from "node:test";
 import type { ExpenseEvent } from "./schema";
 import {
@@ -53,22 +53,22 @@ describe("ExpenseDB CRUD operations validation", () => {
         category: "Food",
         subCategory: "A",
         amount: 10,
-      } as ExpenseEvent,
+      },
       {
         date: "2025-02-15",
         category: "Bills",
         subCategory: "B",
         amount: 20,
-      } as ExpenseEvent,
+      },
       {
         date: "2025-03-01",
         category: "Food",
         subCategory: "C",
         amount: 30,
-      } as ExpenseEvent,
+      },
     ];
 
-    await db.expenses.bulkAdd(rows);
+    await db.expenses.bulkAdd(rows as Expense[]);
 
     const result = await listExpensesByDateRange(db, {
       lowerBound: "2025-02-01",
@@ -89,32 +89,49 @@ describe("ExpenseDB CRUD operations validation", () => {
         category: "X",
         subCategory: "X",
         amount: 1,
-      } as ExpenseEvent,
+      },
       {
         date: "2025-02-01",
         category: "Food",
         subCategory: "A",
         amount: 10,
-      } as ExpenseEvent,
+      },
       {
         date: "2025-02-28",
         category: "Bills",
         subCategory: "B",
         amount: 20,
-      } as ExpenseEvent,
+      },
       {
         date: "2025-03-01",
         category: "Y",
         subCategory: "Y",
         amount: 2,
-      } as ExpenseEvent,
+      },
     ];
 
-    await db.expenses.bulkAdd(rows);
+    await db.expenses.bulkAdd(rows as Expense[]);
 
     const feb = await listExpensesByYearMonth(db, "2025", "2");
 
     expect(feb).toHaveLength(2);
     expect(feb.map((r) => r.date).sort()).toEqual(["2025-02-01", "2025-02-28"]);
+  });
+
+  it("deletes an expense via Entity.delete()", async () => {
+    const id = await db.expenses.add({
+      date: "2025-02-10",
+      category: "Food",
+      subCategory: "Groceries",
+      amount: 12.5,
+    });
+
+    const entity = await db.expenses.get(id);
+    expect(entity).toBeTruthy();
+
+    await db.expenses.delete(entity!.id!);
+
+    const after = await db.expenses.get(id);
+    expect(after).toBeUndefined();
   });
 });

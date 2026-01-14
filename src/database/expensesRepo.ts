@@ -1,3 +1,4 @@
+import type { Expense } from "./initializeDatabase";
 import type LifePortfolioDB from "./initializeDatabase";
 import type { ExpenseEvent } from "./schema";
 
@@ -10,10 +11,10 @@ export async function createExpense(
   db: LifePortfolioDB,
   expense: ExpenseEvent
 ) {
-  return await db.expenses.add(expense);
+  return await db.expenses.add(expense as Expense);
 }
 
-export async function readExpenseByID(db: LifePortfolioDB, id: string) {
+export async function readExpenseByID(db: LifePortfolioDB, id: number) {
   return await db.expenses.get(id);
 }
 
