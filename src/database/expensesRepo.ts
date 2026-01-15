@@ -18,7 +18,7 @@ export async function readExpenseByID(db: LifePortfolioDB, id: number) {
   return await db.expenses.get(id);
 }
 
-export async function listExpensesByDateRange(
+export async function getExpensesByDateRange(
   db: LifePortfolioDB,
   dateRange: DateRange
 ) {
@@ -28,7 +28,7 @@ export async function listExpensesByDateRange(
     .toArray();
 }
 
-export async function listExpensesByYearMonth(
+export async function getExpensesByYearMonth(
   db: LifePortfolioDB,
   year: string,
   month: string
@@ -51,4 +51,9 @@ export async function listExpensesByYearMonth(
     .where("date")
     .between(start, end, true, false) // [start, end)
     .toArray();
+}
+
+export async function getExpensesYearToDate(db: LifePortfolioDB) {
+  const date = `${new Date(Date.now()).getFullYear()}-01-01`;
+  return await db.expenses.where("date").aboveOrEqual(date).toArray();
 }

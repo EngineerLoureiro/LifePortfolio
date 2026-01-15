@@ -2,9 +2,10 @@ import {
   ExpensesByCategory,
   PieChartExpensesByCategory,
 } from "loureiro-sreactcomponentlibrary";
-import { categories } from "./data";
+import { useExpenses } from "./useExpenses";
 
 function App() {
+  const categories = useExpenses();
   return (
     <>
       <ExpensesByCategory

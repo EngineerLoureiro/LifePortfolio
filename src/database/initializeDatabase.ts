@@ -30,7 +30,9 @@ async function seedIfEmpty(db: LifePortfolioDB) {
 
   if (count > 0) return;
 
-  const csv = Papa.parse(seedCsv, { header: true });
+  const csv = Papa.parse(seedCsv, { header: true, skipEmptyLines: true });
+
+  console.log("parsed rows:", csv.data.length);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rows = csv.data.map((value: any) => ({
@@ -40,7 +42,11 @@ async function seedIfEmpty(db: LifePortfolioDB) {
     amount: Number(value.amount),
   }));
 
-  await db.expenses.bulkAdd(rows);
+  try {
+    await db.expenses.bulkAdd(rows);
+  } catch (e) {
+    console.error("bulkAdd failed:", e);
+  }
 }
 export async function initializeDatabase() {
   await expensesDB.open();
