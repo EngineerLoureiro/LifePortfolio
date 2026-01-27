@@ -9,7 +9,7 @@ type DateRange = {
 
 export async function createExpense(
   db: LifePortfolioDB,
-  expense: ExpenseEvent
+  expense: ExpenseEvent,
 ) {
   return await db.expenses.add(expense as Expense);
 }
@@ -20,7 +20,7 @@ export async function readExpenseByID(db: LifePortfolioDB, id: number) {
 
 export async function getExpensesByDateRange(
   db: LifePortfolioDB,
-  dateRange: DateRange
+  dateRange: DateRange,
 ) {
   return db.expenses
     .where("date")
@@ -31,7 +31,7 @@ export async function getExpensesByDateRange(
 export async function getExpensesByYearMonth(
   db: LifePortfolioDB,
   year: string,
-  month: string
+  month: string,
 ) {
   const y = year.trim();
   const m = month.trim().padStart(2, "0"); // "2" -> "02"
@@ -44,7 +44,7 @@ export async function getExpensesByYearMonth(
 
   const end = `${String(nextYearNum)}-${String(nextMonthNum).padStart(
     2,
-    "0"
+    "0",
   )}-01`;
 
   return db.expenses
@@ -56,4 +56,16 @@ export async function getExpensesByYearMonth(
 export async function getExpensesYearToDate(db: LifePortfolioDB) {
   const date = `${new Date(Date.now()).getFullYear()}-01-01`;
   return await db.expenses.where("date").aboveOrEqual(date).toArray();
+}
+
+export async function getExpensesThisMonth(db: LifePortfolioDB) {
+  const now = new Date();
+  const year = now.getFullYear();
+  // getMonth() is zero-based
+  const month = (now.getMonth() + 1).toString().trim().padStart(2, "0");
+  const currentDay = now.getDate();
+  const start = `${year}-${month}-01`;
+  const end = `${year}-${month}-${currentDay}`;
+
+  return db.expenses.where("date").between(start, end, true, true).toArray();
 }

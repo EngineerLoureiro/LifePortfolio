@@ -16,9 +16,9 @@ export type CategoryDetail = {
 
 export function useExpenses() {
   const expenses = useLiveQuery(
-    () => getExpensesYearToDate(expensesDB),
+    async () => await getExpensesYearToDate(expensesDB),
     [],
-    []
+    [],
   );
   const categories: Record<string, Category> = {};
   for (const expense of expenses) {

@@ -1,10 +1,15 @@
 import {
   ExpensesByCategory,
   PieChartExpensesByCategory,
+  type PeriodSelectorState,
 } from "loureiro-sreactcomponentlibrary";
 import { useExpenses } from "./useExpenses";
+import { PeriodSelector } from "./components/PeriodSelector";
+import { useState } from "react";
 
 function App() {
+  const [periodSelectorMode, setPeriodSelectorMode] =
+    useState<PeriodSelectorState>({ type: "preset", preset: "this_month" });
   const categories = useExpenses();
   return (
     <>
@@ -16,6 +21,10 @@ function App() {
         categories={categories}
       />
       <PieChartExpensesByCategory categories={categories} />
+      <PeriodSelector
+        value={periodSelectorMode}
+        onChange={setPeriodSelectorMode}
+      />
     </>
   );
 }
