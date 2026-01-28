@@ -2,9 +2,9 @@ import type { Expense } from "./initializeDatabase";
 import type LifePortfolioDB from "./initializeDatabase";
 import type { ExpenseEvent } from "./schema";
 
-type DateRange = {
-  lowerBound: string;
-  upperBound: string;
+export type DateRange = {
+  lowerBound: Date;
+  upperBound: Date;
 };
 
 export async function createExpense(
@@ -22,25 +22,29 @@ export async function getExpensesByDateRange(
   db: LifePortfolioDB,
   dateRange: DateRange,
 ) {
+  const lowerBound = `${dateRange.lowerBound.getFullYear()}-${String((dateRange.lowerBound.getMonth() as number) + 1).padStart(2, "0")}-${String(dateRange.lowerBound.getDate()).padStart(2, "0")}`;
+  const upperBound = `${dateRange.upperBound.getFullYear()}-${String((dateRange.upperBound.getMonth() as number) + 1).padStart(2, "0")}-${String(dateRange.upperBound.getDate()).padStart(2, "0")}`;
   return db.expenses
     .where("date")
-    .between(dateRange.lowerBound, dateRange.upperBound, true, true)
+    .between(lowerBound, upperBound, true, true)
     .toArray();
 }
 
-export async function getExpensesByYearMonth(
+export async function getExpensesLastMonth(
   db: LifePortfolioDB,
-  year: string,
-  month: string,
+  now = new Date(),
 ) {
-  const y = year.trim();
-  const m = month.trim().padStart(2, "0"); // "2" -> "02"
+  // getMonth() is zero-based, so it always returns the calendar last month corresponding to the calendar current month
+  const year =
+    now.getMonth() === 0 ? String(now.getFullYear() - 1) : now.getFullYear();
+  const lastMonth =
+    now.getMonth() === 0 ? "12" : now.getMonth().toString().padStart(2, "0");
 
-  const start = `${y}-${m}-01`;
+  const start = `${year}-${lastMonth}-01`;
 
-  const monthNum = Number(m);
+  const monthNum = Number(lastMonth);
   const nextMonthNum = monthNum === 12 ? 1 : monthNum + 1;
-  const nextYearNum = monthNum === 12 ? Number(y) + 1 : Number(y);
+  const nextYearNum = monthNum === 12 ? Number(year) + 1 : Number(year);
 
   const end = `${String(nextYearNum)}-${String(nextMonthNum).padStart(
     2,
@@ -53,19 +57,41 @@ export async function getExpensesByYearMonth(
     .toArray();
 }
 
-export async function getExpensesYearToDate(db: LifePortfolioDB) {
-  const date = `${new Date(Date.now()).getFullYear()}-01-01`;
-  return await db.expenses.where("date").aboveOrEqual(date).toArray();
+export async function getExpensesYearToDate(
+  db: LifePortfolioDB,
+  now = new Date(),
+) {
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  const start = `${year}-01-01`;
+  const end = `${year}-${month}-${day}`; // inclusive up to today
+
+  return db.expenses.where("date").between(start, end, true, true).toArray();
 }
 
-export async function getExpensesThisMonth(db: LifePortfolioDB) {
-  const now = new Date();
+export async function getExpensesThisMonth(
+  db: LifePortfolioDB,
+  now = new Date(),
+) {
   const year = now.getFullYear();
-  // getMonth() is zero-based
   const month = (now.getMonth() + 1).toString().trim().padStart(2, "0");
-  const currentDay = now.getDate();
+  const currentDay = String(now.getDate()).padStart(2, "0");
   const start = `${year}-${month}-01`;
   const end = `${year}-${month}-${currentDay}`;
+
+  return db.expenses.where("date").between(start, end, true, true).toArray();
+}
+
+export async function getExpensesLast12Months(
+  db: LifePortfolioDB,
+  now = new Date(),
+) {
+  const endMonth = (now.getMonth() + 1).toString().trim().padStart(2, "0");
+  const endDay = String(now.getDate()).padStart(2, "0");
+  const end = `${now.getFullYear()}-${endMonth}-${endDay}`;
+  const start = `${now.getFullYear() - 1}-${endMonth}-${endDay}`;
 
   return db.expenses.where("date").between(start, end, true, true).toArray();
 }

@@ -10,7 +10,7 @@ import { useState } from "react";
 function App() {
   const [periodSelectorMode, setPeriodSelectorMode] =
     useState<PeriodSelectorState>({ type: "preset", preset: "this_month" });
-  const categories = useExpenses();
+  const categories = useExpenses(periodSelectorMode);
   return (
     <>
       <ExpensesByCategory
