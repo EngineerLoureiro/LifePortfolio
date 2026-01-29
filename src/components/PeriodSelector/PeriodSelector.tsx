@@ -21,13 +21,16 @@ export function PeriodSelector(props: PeriodSelectorProps) {
   const isCustomPeriodSelectorOpen =
     value.type === "custom" ? value.open : false;
   return (
-    <>
+    <div
+      style={{ display: "flex", marginTop: "20px", alignItems: "flex-start" }}
+    >
       <PresetPeriodSelector
         value={presetPeriodSelectorValue}
         onChange={(value) => {
           onChange({ type: "preset", preset: value });
         }}
       />
+      <div style={{ width: "20px" }} />
       <CustomPeriodSelector
         date={customPeriodSelectorDate}
         isOpen={isCustomPeriodSelectorOpen}
@@ -47,6 +50,6 @@ export function PeriodSelector(props: PeriodSelectorProps) {
           }
         }}
       />
-    </>
+    </div>
   );
 }
