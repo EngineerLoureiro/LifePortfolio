@@ -8,10 +8,10 @@ import {
   type DateRange,
 } from "./database";
 import { useLiveQuery } from "dexie-react-hooks";
-import { BiCategoryAlt } from "react-icons/bi";
 import { RiMoneyEuroCircleFill } from "react-icons/ri";
 import type LifePortfolioDB from "./database/initializeDatabase";
 import type { PeriodSelectorState } from "loureiro-sreactcomponentlibrary";
+import { symbolToCategoryIcon, type CategoryKey } from "./utils";
 export type Category = {
   title: string;
   amount: number;
@@ -76,7 +76,8 @@ export function useExpenses(period: PeriodSelectorState) {
       categories[key] = {
         title: key,
         amount: 0,
-        symbol: <BiCategoryAlt />,
+        // TODO: Remove this cast by typing expense.category as CategoryKey upstream.
+        symbol: symbolToCategoryIcon[key.toLocaleLowerCase() as CategoryKey],
         details: [],
       };
     }
